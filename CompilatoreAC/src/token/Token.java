@@ -34,12 +34,11 @@ public class Token {
         }
     }
     
-    
-    
+
     
     //	METODI GETTERS
     public TokenType getType() { return type; }
     public int getLine() { return line; }
     public String getValue() { return value; }
-
+    
 }

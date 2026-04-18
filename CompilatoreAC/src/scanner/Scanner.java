@@ -16,6 +16,8 @@ public class Scanner {
 	final char EOF = (char) -1; 
 	private int riga;
 	private PushbackReader buffer;
+	private Token nextTk = null;
+	
 
 	// Insiemi di caratteri
 	private Set<Character> skipChars;
@@ -65,10 +67,24 @@ public class Scanner {
 		keyWordsTkType.put("int", TokenType.TYINT);
 		keyWordsTkType.put("float", TokenType.TYFLOAT);
 	}
+	
+	
+	public Token peekToken() throws LexicalException {
+	    if (nextTk == null) {
+	        nextTk = nextToken(); // Se il parcheggio è vuoto, lo riempiamo
+	    }
+	    return nextTk; // Restituiamo il token parcheggiato
+	}
 
 	
 	//ciclo che legge i caratteri "inutili" (spazi, tab, invii)
 	public Token nextToken() throws LexicalException {
+		// Se c'è un token già letto da peekToken, lo restituiamo e svuotiamo il parcheggio
+	    if (nextTk != null) {
+	        Token t = nextTk;
+	        nextTk = null;
+	        return t;
+	    }
 		try {
 			char nextChar = peekChar();
 
