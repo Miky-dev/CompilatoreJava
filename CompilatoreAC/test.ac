@@ -1,0 +1,4 @@
+float f = 10.5 ;
+int i = 2 ;
+f = f + i ;
+print f ;

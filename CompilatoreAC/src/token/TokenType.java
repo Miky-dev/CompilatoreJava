@@ -13,3 +13,4 @@ public enum TokenType {
     // Delimitatori e Fine Input
     SEMI, EOF
 }
+

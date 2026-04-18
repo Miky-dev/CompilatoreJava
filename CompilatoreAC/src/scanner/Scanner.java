@@ -72,7 +72,7 @@ public class Scanner {
 		try {
 			char nextChar = peekChar();
 
-		    // 1. Salta i caratteri di skip (spazi, tab, ecc.)
+		// 1. Salta i caratteri di skip (spazi, tab, ecc.)
 		    while (skipChars.contains(nextChar)) {
 		        if (nextChar == EOF) {
 		            return new Token(TokenType.EOF, riga);
@@ -108,13 +108,94 @@ public class Scanner {
 		            return new Token(delimTkType.get(currentCh), riga);
 		        }
 		    }
-			
-			return null; 
+		    
+		    
+		 // 3. Gestione Identificatori e Parole Chiave
+		    if (letters.contains(nextChar)) {
+		        return scanId();
+		    }
+		    
+		    
+		 // 4. Gestione Numeri (Interi e Float)
+		    if (digits.contains(nextChar)) {
+		        return scanNumber();
+		    }
+		    
+		    
+		 // 5. Se arriviamo qui, il carattere non è riconosciuto
+		    // Leggiamo il carattere per "consumarlo" dal buffer
+		    char illegalChar = readChar(); 
+		    // Lanciamo l'eccezione con il messaggio dettagliato
+		    throw new LexicalException("Errore riga " + riga + ": carattere illegale '" + illegalChar + "'");
+		    
 		} catch (IOException e) {
 			throw new LexicalException("Errore di lettura alla riga " + riga);
 		}
 	}
 
+	
+	private Token scanId() throws IOException {
+	    StringBuilder sb = new StringBuilder();
+	    char nextChar = peekChar();
+
+	    // Leggiamo finché troviamo lettere o cifre
+	    while (letters.contains(nextChar) || digits.contains(nextChar)) {
+	        sb.append(readChar()); // Consumiamo e aggiungiamo allo StringBuilder
+	        nextChar = peekChar();
+	    }
+
+	    String word = sb.toString();
+
+	    // Controlliamo se la stringa è una parola chiave (print, int, float)
+	    if (keyWordsTkType.containsKey(word)) {
+	        return new Token(keyWordsTkType.get(word), riga);
+	    }
+
+	    // Altrimenti è un normale identificatore (ID)
+	    return new Token(TokenType.ID, riga, word);
+	}
+	
+	
+	
+	
+	private Token scanNumber() throws IOException, LexicalException {
+	    StringBuilder sb = new StringBuilder();
+	    char nextChar = peekChar();
+
+	    // Leggiamo la parte intera (sequenza di cifre)
+	    while (digits.contains(nextChar)) {
+	        sb.append(readChar());
+	        nextChar = peekChar();
+	    }
+
+	    // Controlliamo se c'è un punto decimale
+	    if (nextChar == '.') {
+	        sb.append(readChar()); // Consumiamo il punto '.'
+	        nextChar = peekChar();
+
+	        // Dopo il punto DEVE esserci almeno una cifra (regola del pattern ac)
+	        if (!digits.contains(nextChar)) {
+	            throw new LexicalException("Errore riga " + riga + ": attesa cifra dopo il punto decimale.");
+	        }
+
+	        int count = 0;
+	        // Leggiamo la parte decimale (massimo 5 cifre come da pattern)
+	        while (digits.contains(nextChar)) {
+	            sb.append(readChar());
+	            count++;
+	            nextChar = peekChar();
+	            
+	            if (count > 5) {
+	                throw new LexicalException("Errore riga " + riga + ": un numero float può avere al massimo 5 cifre decimali.");
+	            }
+	        }
+	        return new Token(TokenType.FLOAT, riga, sb.toString());
+	    }
+
+	    // Se non abbiamo trovato il punto, è un semplice intero
+	    return new Token(TokenType.INT, riga, sb.toString());
+	}
+	
 	
 	
 	// Metodi ausiliari forniti dalla prof
