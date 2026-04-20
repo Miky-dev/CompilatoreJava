@@ -21,8 +21,6 @@ public class TestParser {
             
             System.out.println("Parsing completato con successo! Il file è sintatticamente corretto.");
 
-        } catch (LexicalException e) {
-            System.err.println("ERRORE LESSICALE: " + e.getMessage());
         } catch (SyntacticException e) {
             System.err.println("ERRORE SINTATTICO: " + e.getMessage());
         } catch (Exception e) {
