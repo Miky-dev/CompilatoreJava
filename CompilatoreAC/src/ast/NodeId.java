@@ -1,0 +1,18 @@
+package ast;
+
+public class NodeId extends NodeExpr { // Un ID può essere valutato come un'espressione!
+    private String name;
+
+    public NodeId(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+}
