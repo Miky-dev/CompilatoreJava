@@ -6,7 +6,7 @@ import ast.NodeProgram; // Aggiungi questo import!
 import parser.SyntacticException;
 import scanner.LexicalException;
 
-public class TestParser {
+public class TestSoloParser {
     public static void main(String[] args) {
         try {
             Scanner scanner = new Scanner("test_semplice.ac"); // Usa il tuo file di test

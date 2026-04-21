@@ -1,5 +1,7 @@
 package ast;
 
+import visitor.IVisitor;
+
 public class NodeCost extends NodeExpr {
     private String value;
     private LangType type;
@@ -8,9 +10,18 @@ public class NodeCost extends NodeExpr {
         this.value = value;
         this.type = type;
     }
+    
+    public LangType getType() { return type; }
+    public String getValue() { return value; }
 
     @Override
     public String toString() {
         return "Cost(" + type + ":" + value + ")";
     }
+    
+    @Override
+    public void accept(IVisitor visitor) {
+        visitor.visit(this);
+    }
+    
 }
