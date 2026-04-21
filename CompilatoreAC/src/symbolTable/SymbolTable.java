@@ -8,13 +8,24 @@ public class SymbolTable {
     // La classe interna per gli attributi (Slide 3)
     public static class Attributes {
         private LangType tipo;
+        private char registro;
 
         public Attributes(LangType tipo) {
             this.tipo = tipo;
+            this.registro = '\0'; // All'inizio non ha nessun registro assegnato
         }
 
         public LangType getTipo() {
             return tipo;
+        }
+        
+     // Getter e Setter per il registro
+        public char getRegistro() {
+            return registro;
+        }
+
+        public void setRegistro(char registro) {
+            this.registro = registro;
         }
     }
 

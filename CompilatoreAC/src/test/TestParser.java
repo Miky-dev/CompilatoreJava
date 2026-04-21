@@ -24,8 +24,23 @@ public class TestParser {
             System.out.println(ast.toString());
             System.out.println("--------------------");
             
+            
+            //typeCheckin
             visitor.TypeCheckinVisitor typeChecker = new visitor.TypeCheckinVisitor();
-            ast.accept(typeChecker); // Questo fa partire a cascata tutta l'analisi!
+            ast.accept(typeChecker); // Questo fa partire a cascata tutta l'analisi
+            
+            
+            // --- GENERAZIONE CODICE ---
+            visitor.CodeGeneratorVisitor codeGen = new visitor.CodeGeneratorVisitor();
+            ast.accept(codeGen); // Avvia la traduzione!
+
+            if (!codeGen.getLog().isEmpty()) {
+                System.err.println("Errore in Generazione Codice: " + codeGen.getLog());
+            } else {
+                System.out.println("--- CODICE DC GENERATO ---");
+                System.out.println(codeGen.getCodice());
+                System.out.println("--------------------------");
+            }
 
         } catch (SyntacticException e) {
             System.err.println("ERRORE: " + e.getMessage());

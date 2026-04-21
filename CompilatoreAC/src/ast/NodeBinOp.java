@@ -16,6 +16,10 @@ public class NodeBinOp extends NodeExpr {
     public LangOper getOp() { return op; }
     public NodeExpr getLeft() { return left; }
     public NodeExpr getRight() { return right; }
+    
+    public void setOp(LangOper op) {
+        this.op = op;
+    }
 
     @Override
     public String toString() {

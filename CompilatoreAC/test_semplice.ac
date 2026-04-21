@@ -1,6 +1,8 @@
-int x;
-float y;
-z = 5;      
-x = 3.5;   
-y = 10;  
-x += y;      
+int a = 0;
+a += 1;
+int b = 6;
+float temp;
+temp = 1.0 / 6 + a / b;
+print a;
+print b;
+print temp;

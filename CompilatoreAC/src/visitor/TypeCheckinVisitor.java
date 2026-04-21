@@ -107,11 +107,15 @@ public class TypeCheckinVisitor implements IVisitor {
 
         // 3. Regole di Type Checking per le operazioni
         if (leftType == TypeDescriptor.INT && rightType == TypeDescriptor.INT) {
-            // INT operazione INT = INT
             typeCheckResult = TypeDescriptor.INT;
         } else {
-            // Se almeno uno dei due è FLOAT, il risultato "promuove" a FLOAT
             typeCheckResult = TypeDescriptor.FLOAT;
+            
+            // SE IL RISULTATO È FLOAT E L'OPERAZIONE ERA UNA DIVISIONE, 
+            // LA TRASFORMIAMO IN UNA DIVISIONE FLOAT!
+            if (node.getOp() == LangOper.DIV) {
+                node.setOp(LangOper.DIV_FLOAT);
+            }
         }
     }
 
