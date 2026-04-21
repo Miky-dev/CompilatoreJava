@@ -69,7 +69,7 @@ print b;
 print temp;
 
 
-## Esempio di Utilizzo
+
 Inizio parsing e costruzione AST...
 Parsing completato con successo!
 
